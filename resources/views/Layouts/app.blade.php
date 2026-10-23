@@ -21,7 +21,7 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="{{ route('dashboard') }}">Inicio</a></li>
-                <li><a href="#">Producto</a></li>
+                 <li><a href="{{ route('cliente.index') }}">Clientes</a></li>
             </ul>
             <div class="sidebar-footer">
                 <span class="user-info">Hola, <strong>{{ Auth::user()->usuario ?? 'Usuario' }}</strong></span>

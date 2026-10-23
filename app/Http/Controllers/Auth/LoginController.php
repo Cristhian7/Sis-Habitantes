@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LoginController
 {
     // Form de login
     public function show()
@@ -14,10 +13,8 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    // Valida las credenciales con la data de BD
     public function login(Request $request)
-    {
-        // 1. Validar campos 
+    { 
         $credenciales = $request->validate([
             'usuario' => ['required'], 
             'password' => ['required'],
@@ -26,21 +23,17 @@ class LoginController extends Controller
             'password.required' => 'El campo contraseña es obligatorio.',
         ]);
 
-        // 2. Intentar autenticación con Auth::attempt (Laravel verifica automáticamente el hash)
         if (Auth::attempt(['usuario' => $credenciales['usuario'], 'password' => $credenciales['password']])) {
             $request->session()->regenerate();
 
-            // Redirige al dashboard o la ruta protegida
             return redirect()->intended('dashboard');
         }
 
-        // 3. Si falla la autenticación, regresa con error
         return back()->withErrors([
             'login_error' => 'Usuario o contraseña incorrectos.',
         ])->withInput();
     }
 
-    // Opcional: Cerrar sesión
     public function logout(Request $request)
     {
         Auth::logout();
